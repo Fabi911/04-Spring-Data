@@ -23,8 +23,8 @@ public class AsterixController {
     }
 
     @GetMapping("/characters/{id}")
-    public Character getCharacterById(@PathVariable String id) {
-        Character character = CharactersRepo.findById(id).orElseThrow();
+    public Character getCharacterByName(@PathVariable String name) {
+        Character character = CharactersRepo.findById(name).orElseThrow();
         return character;
     }
 }
