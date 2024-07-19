@@ -1,12 +1,10 @@
 package org.example.springdata;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/asterix")
 public class AsterixController {
@@ -23,8 +21,29 @@ public class AsterixController {
     }
 
     @GetMapping("/characters/{id}")
-    public Character getCharacterByName(@PathVariable String name) {
-        Character character = CharactersRepo.findById(name).orElseThrow();
+    public Character getCharacterById(@PathVariable String id) {
+        Character character = CharactersRepo.findById(id).orElseThrow(() -> new RuntimeException("Character not found"));
         return character;
     }
+
+    @PostMapping("/characters")
+    public Character addCharacter(@RequestBody Character character) {
+        CharactersRepo.save(character);
+        return character;
+    }
+
+    @DeleteMapping("/characters/{id}")
+    public void deleteCharacter(@PathVariable String id) {
+        CharactersRepo.deleteById(id);
+    }
+
+    @PutMapping("/characters/{id}")
+    public Character updateCharacter(@PathVariable String id, @RequestBody Character character) {
+        CharactersRepo.deleteById(id);
+        CharactersRepo.save(character);
+        return character;
+    }
+
+
+
 }
