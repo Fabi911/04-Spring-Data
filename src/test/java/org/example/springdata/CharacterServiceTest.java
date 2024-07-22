@@ -101,4 +101,25 @@ class CharacterServiceTest {
         verify(charactersRepo, times(1)).deleteById("123");
         verify(charactersRepo, times(1)).save(any(Character.class));
     }
+
+    @Test
+    public void testAddCharacterWithGenerateId() {
+        //GIVEN
+        CharacterDTO characterDTO= new CharacterDTO("New Character", 35, "New Profession");
+        String generatedId= idService.generateId();
+        Character character=new Character(generatedId, "New Character", 35, "New Profession");
+
+        when(idService.generateId()).thenReturn(generatedId);
+        when(charactersRepo.save(any(Character.class))).thenReturn(character);
+        //WHEN
+        Character result = characterService.addCharacter(characterDTO);
+        //THEN
+        assertEquals(generatedId, result.id());
+        assertEquals("New Character", result.name());
+        assertEquals(35, result.age());
+        assertEquals("New Profession", result.profession());
+
+        verify(idService, times(1)).generateId();
+        verify(charactersRepo, times(1)).save(any(Character.class));
+    }
 }
