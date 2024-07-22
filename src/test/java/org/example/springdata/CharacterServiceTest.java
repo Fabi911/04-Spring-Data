@@ -53,7 +53,7 @@ class CharacterServiceTest {
         //THEN
         assertEquals("123", result.id());
         assertEquals("Test Character", result.name());
-        verify(charactersRepo, times(1)).findById("123");
+        verify(charactersRepo).findById("123");
     }
 
     @Test
@@ -66,11 +66,11 @@ class CharacterServiceTest {
         });
         //THEN
         assertEquals("Character not found", exception.getMessage());
-        verify(charactersRepo, times(1)).findById("123");
+        verify(charactersRepo).findById("123");
     }
 
     @Test
-    public void testDeleteCharacter() {
+    void testDeleteCharacter() {
         // Arrange
         String characterId = "123";
 
@@ -78,7 +78,7 @@ class CharacterServiceTest {
         characterService.deleteCharacter(characterId);
 
         // Assert
-        verify(charactersRepo, times(1)).deleteById(characterId);
+        verify(charactersRepo).deleteById(characterId);
     }
 
     @Test
@@ -98,8 +98,8 @@ class CharacterServiceTest {
         assertEquals("Updated Character", result.name());
         assertEquals(35, result.age());
         assertEquals("Updated Profession", result.profession());
-        verify(charactersRepo, times(1)).deleteById("123");
-        verify(charactersRepo, times(1)).save(any(Character.class));
+        verify(charactersRepo).deleteById("123");
+        verify(charactersRepo).save(any(Character.class));
     }
 
     @Test
@@ -119,7 +119,7 @@ class CharacterServiceTest {
         assertEquals(35, result.age());
         assertEquals("New Profession", result.profession());
 
-        verify(idService, times(1)).generateId();
-        verify(charactersRepo, times(1)).save(any(Character.class));
+        verify(idService).generateId();
+        verify(charactersRepo).save(any(Character.class));
     }
 }
