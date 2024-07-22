@@ -106,7 +106,7 @@ class CharacterServiceTest {
     public void testAddCharacterWithGenerateId() {
         //GIVEN
         CharacterDTO characterDTO= new CharacterDTO("New Character", 35, "New Profession");
-        String generatedId= idService.generateId();
+        String generatedId= "12345";
         Character character=new Character(generatedId, "New Character", 35, "New Profession");
 
         when(idService.generateId()).thenReturn(generatedId);
