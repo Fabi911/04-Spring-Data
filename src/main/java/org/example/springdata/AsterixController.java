@@ -1,5 +1,6 @@
 package org.example.springdata;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -7,41 +8,36 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/asterix")
+@RequiredArgsConstructor
 public class AsterixController {
-    private final CharactersRepo CharactersRepo;
-    public AsterixController(CharactersRepo CharactersRepo) {
-        this.CharactersRepo = CharactersRepo;
-    }
+
+    private final CharacterService characterService;
+
 
 
     @GetMapping("/characters")
     public List<Character> getAllProducts() {
-        List<Character> allCharacters = CharactersRepo.findAll();
-        return allCharacters;
+      return characterService.getAllCharacters();
     }
 
     @GetMapping("/characters/{id}")
     public Character getCharacterById(@PathVariable String id) {
-        Character character = CharactersRepo.findById(id).orElseThrow(() -> new RuntimeException("Character not found"));
-        return character;
+        return  characterService.getCharacterById(id);
     }
 
     @PostMapping("/characters")
-    public Character addCharacter(@RequestBody Character character) {
-        CharactersRepo.save(character);
-        return character;
+    public Character addCharacter(@RequestBody CharacterDTO character) {
+        return characterService.addCharacter(character);
     }
 
     @DeleteMapping("/characters/{id}")
     public void deleteCharacter(@PathVariable String id) {
-        CharactersRepo.deleteById(id);
+        characterService.deleteCharacter(id);
     }
 
     @PutMapping("/characters/{id}")
-    public Character updateCharacter(@PathVariable String id, @RequestBody Character character) {
-        CharactersRepo.deleteById(id);
-        CharactersRepo.save(character);
-        return character;
+    public Character updateCharacter(@PathVariable String id, @RequestBody CharacterDTO character) {
+        return characterService.updateCharacter(id, character);
     }
 
 
