@@ -60,12 +60,13 @@ public class CharacterIntegrationTest {
     @Test
     @DirtiesContext
     void updateCharacter() throws Exception {
+        charactersRepo.save(new Character("1", "Asterix", 32, "Warrior"));
         mockMvc.perform(put("/asterix/characters/1")
                 .contentType("application/json")
                 .content("""
                         {
                             "name": "Asterix",
-                            "age": 32,
+                            "age": 35,
                             "profession": "Warrior"
                         }
                         """))
@@ -73,7 +74,7 @@ public class CharacterIntegrationTest {
                 .andExpect(content().json("""
                         {
                             "name": "Asterix",
-                            "age": 32,
+                            "age": 35,
                             "profession": "Warrior"
                         }
                         """));
